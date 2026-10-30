@@ -11,10 +11,10 @@ on:
   push:
   pull_request:
 
-# Give the workflow read-only access to repository contents,
+# Give the workflow write access to repository contents to apply fixes,
 # and write access to report statuses back to the API.
 permissions:
-  contents: read
+  contents: write
   statuses: write
 
 jobs:
@@ -73,3 +73,6 @@ jobs:
 
           # 7. Check shell script formatting with shfmt.
           VALIDATE_SHELL_SHFMT: true
+          
+          # Automatically fix layout/formatting issues for shell scripts.
+          FIX_SHELL_SHFMT: true

@@ -13,7 +13,7 @@ fi
 echo "Organising $folder..."
 
 # 3. Check if the folder does NOT exist
-if [ ! -d "$folder" ]; then
+if [ ! -f "$folder" ]; then
     echo "Error: Directory '$folder' does not exist." >&2
     exit 1
 fi

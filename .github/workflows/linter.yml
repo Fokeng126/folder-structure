@@ -1,57 +1,75 @@
+
 ---
-#################################
-#################################
-## Super Linter GitHub Actions ##
-#################################
-#################################
+# ==========================================================
+# SUPER-LINTER GITHUB ACTIONS WORKFLOW
+# Automatically checks the repository for code-quality issues.
+# ==========================================================
+
 name: Lint Code Base
 
-#
-# Documentation:
-# https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions
-#
-
-#############################
-# Start the job on all push #
-#############################
+# Run the workflow whenever code is pushed or a pull request
+# is created or updated.
 on:
   push:
-    branches-ignore: [master, main]
-    # Remove the line above to run when pushing to master
   pull_request:
-    branches: [master, main]
 
-###############
-# Set the Job #
-###############
+# Give the workflow read-only access to repository contents.
+permissions:
+  contents: read
+
 jobs:
   build:
-    # Name the Job
+    # Name displayed in the GitHub Actions interface.
     name: Lint Code Base
-    # Set the agent to run on
+
+    # Run the checks on an Ubuntu environment.
     runs-on: ubuntu-latest
 
-    ##################
-    # Load all steps #
-    ##################
     steps:
-      ##########################
-      # Checkout the code base #
-      ##########################
+
+      # 1. Download the repository files.
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          # Full git history is needed to get a proper
-          # list of changed files within `super-linter`
+          # Download the complete Git history.
           fetch-depth: 0
 
-      ################################
-      # Run Linter against code base #
-      ################################
+      # 2. Run Super-Linter.
       - name: Lint Code Base
         uses: super-linter/super-linter@v7
+
         env:
-          VALIDATE_ALL_CODEBASE: false
-          # Change to 'master' if your main branch differs
-          DEFAULT_BRANCH: main
+
+          # Check every file in the repository.
+          VALIDATE_ALL_CODEBASE: true
+
+          # Automatically identify the repository's default branch.
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+
+          # GitHub authentication token.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          # --------------------------------------------------
+          # ENABLE ALL SEVEN CHECKS FROM YOUR ORIGINAL LOG
+          # --------------------------------------------------
+
+          # 1. Check Bash scripts for syntax and code problems.
+          VALIDATE_BASH: true
+
+          # 2. Check executable Bash scripts.
+          VALIDATE_BASH_EXEC: true
+
+          # 3. Check infrastructure files for security issues.
+          VALIDATE_CHECKOV: true
+
+          # 4. Detect accidentally committed secrets.
+          VALIDATE_GITLEAKS: true
+
+          # 5. Detect unresolved Git merge conflict markers.
+          VALIDATE_GIT_MERGE_CONFLICT_MARKERS: true
+
+          # 6. Detect duplicated code.
+          VALIDATE_JSCPD: true
+
+          # 7. Check shell script formatting with shfmt.
+          VALIDATE_SHELL_SHFMT: true

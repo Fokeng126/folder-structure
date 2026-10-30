@@ -1,0 +1,100 @@
+#!/bin/bash
+
+echo "Hey there! Am working on a script to organise your files into folders based on their file types. This script will help you keep your directories neat and tidy."
+
+# 1. Choosing folder to be organised
+if [ -z "$1" ]; then
+    folder="."
+else
+    folder="$1"
+fi
+
+# 2. Show the starting message
+echo "Organising $folder..."
+
+# 3. Check if the folder does NOT exist
+if [ ! -d "$folder" ]; then
+    echo "Error: Directory '$folder' does not exist." >&2
+    exit 1
+fi
+
+  # 4. Initialize a counter for  all moved files
+moved_count=0
+
+# 5. Look at every item in the folder one by one
+for filepath in "$folder"/*; do
+    
+    # Only touch it if it's a real file (ignore folders)
+    if [ -f "$filepath" ]; then
+        
+        # Collect just the name of the file (e.g., photo.JPG)
+        filename=$(basename "$filepath")
+        
+          # Extract the extension and force it to lowercase
+           ext="${filename##*.}"
+           ext=$(echo "$ext" | tr '[:upper:]' '[:lower:]')
+        
+        # If the file has no dot at all, treat its extension as empty
+        if [[ "$filename" != *.* ]]; then
+            ext=""
+        fi
+
+        # Find the right category folder name
+        case "$ext" in
+            jpg|jpeg|png|gif|webp)      category="Pictures" ;;
+            pdf|doc|docx|txt|xlsx|pptx) category="Documents" ;;
+            mp3|wav|m4a)                category="Audio" ;;
+            mp4|mkv|mov)                category="Video" ;;
+            zip|rar|tar|gz)             category="Archives" ;;
+            *)                          category="Other" ;;
+        esac
+
+# 6. Setting up a path for the category folder (e.g., ./Downloads/Images)
+dest_dir="$folder/$category"
+
+# 7. Creating the folder ONLY if it does NOT exist yet
+if [ ! -d "$dest_dir" ]; then
+    mkdir -p "$dest_dir"
+fi
+
+# 8. clean up spaces in the filename if necessary
+ if [[ "$filename" == *" "* ]]; then
+            filename="${filename// /_}"
+        fi
+
+# Extract filename without extension for duplicate handling
+        if [ -n "$ext" ]; then
+            base="${filename%.*}"
+        else
+            base="$filename"
+        fi
+        
+        final_name="$filename"
+        counter=1
+
+counter=1
+
+# 9. Check if the file already exists in the destination folder
+#loop until we find a unique filename slot
+while [ -f "$dest_dir/$final_filename" ]; do
+   if [ -n "$ext" ]; then
+        final_filename="${base}($counter).$ext"
+    else
+        final_filename="${base}($counter)"
+    fi
+    final_filename="${base}($counter).$ext"
+    ((counter++))
+done
+
+# 10. safe to move now! (only ONE move command executed per file) 
+mv "$filepath" "$dest_dir/$final_name"
+
+        echo "====================================="
+        echo "Moved '$(basename "$filepath")' to '$dest_dir/$final_name'"
+        echo "====================================="
+        ((moved_count++))
+    fi
+done               
+
+echo "Job done verry good! Successfully organized $moved_count files."
+

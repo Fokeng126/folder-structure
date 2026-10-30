@@ -28,7 +28,7 @@ for filepath in "$folder"/*; do
         # Grab just the name of the file (e.g., photo.JPG)
         filename=$(basename "$filepath") 
 
-        # 🌟 CRITICAL FIX: Skip the script and the readme so they don't move into 'Other'
+        # complete fix Skip the script and the readme so they don't move into 'Other'
         if [ "$filename" = "organiser.sh" ] || [ "$filename" = "Readme.md" ] || [ "$filename" = "README.md" ]; then
             continue
         fi
@@ -85,5 +85,5 @@ for filepath in "$folder"/*; do
     fi
 done
 
-echo "Tidying complete! Total files moved: $moved_count"
+echo "Tidying complete! Total files moved good job: $moved_count"
 

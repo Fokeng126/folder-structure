@@ -1,46 +1,90 @@
 # File Organizer Script
 
-This is a simple tool that cleans up cluttered folders by automatically moving files into neat category folders based on what type of file they are.
+## Problem Statement
 
-## What it does
+Keeping files in one folder can make it difficult to find documents, images, audio, and videos. When many files are stored together, the folder becomes disorganised and difficult to manage.
 
-- **Groups files into folders**: It sorts your files into folders like Pictures, Documents, Audio, and Video.
-- **Does not overwrite files**: If a file with the same name already exists in the new folder, it adds a number to it (like `photo(1).jpg`) so you don't lose anything.
-- **Cleans up spaces**: It automatically fixes spaces in filenames by turning them into underscores (`_`) so they work better in terminal systems.
+## Project Goal
 
-## Where your files go
+The goal of this project is to create a Bash script that automatically organises files into different folders based on their file extensions. This helps keep files organised and makes them easier to find.
 
-The script looks at the end of your file name (the extension) and sorts them into these folders:
+## Tech Stack
 
-- **Pictures**: `jpg`, `jpeg`, `png`, `gif`, `webp`
-- **Documents**: `pdf`, `doc`, `docx`, `txt`, `xlsx`, `pptx`
-- **Audio**: `mp3`, `wav`, `m4a`
-- **Video**: `mp4`, `mkv`, `mov`
-- **Archives**: `zip`, `rar`, `tar`, `gz`
-- **Other**: Anything else that doesn't fit the lists above.
+- Bash
+- Linux Terminal
+- Git and GitHub
+- Visual Studio Code
 
----
+## Screenshots
 
-## How to use it
+Screenshots of the script running and the organised folders will be added here.
 
-### Step 1: Give it permission to run
-Before using it the first time, open your terminal and type this command to let the script run:
+## Features
+
+- Automatically moves files into folders based on their file extensions.
+- Sorts files into Images, Documents, Audio, Video, Archives, and Other.
+- Recognises uppercase and lowercase file extensions.
+- Preserves spaces in filenames.
+- Prevents files from being overwritten by adding a number to duplicate filenames.
+- Preserves the original extension case when renaming duplicate files.
+- Displays each file moved and the total number of files moved.
+- Shows an error message if the selected directory does not exist.
+
+## Installation and Setup
+
+### Step 1: Clone the repository
+
+Run this command to download the project:
+
+```bash
+git clone https://github.com/Fokeng126/folder-structure.git
+```
+
+### Step 2: Enter the project folder
+
+```bash
+cd folder-structure
+```
+
+### Step 3: Give the script permission to run
+
 ```bash
 chmod +x organiser.sh
 ```
 
-### Step 2: Run it
+### Step 4: Run the script
 
-**Option A: Clean up the folder you are currently in**
-Just type this command:
+To organise files in the current directory:
+
 ```bash
 ./organiser.sh
 ```
 
-**Option B: Clean up a specific folder somewhere else**
-Type the command followed by the path to that folder:
+To organise files in another directory:
+
 ```bash
-./organiser.sh /path/to/your/cluttered/folder
+./organiser.sh /path/to/your/folder
 ```
 
-When it finishes, the script will show you a nice summary message telling you exactly how many files it moved!
+**Note:** The script moves files, so it is safer to test it using a copy of your folder first.
+
+## Challenges Faced
+
+- Handling uppercase and lowercase file extensions.
+- Preventing files with the same name from being overwritten.
+- Preserving spaces in filenames.
+- Making sure files are moved into the correct category folders.
+- Testing the script with different types of files.
+
+## What I Learnt
+
+- How to use Bash variables, loops, conditions, and case statements.
+- How to work with files and directories using Linux commands.
+- How to use `mkdir` and `mv` in Bash scripts.
+- How to handle filenames containing spaces.
+- How to test and debug a Bash script.
+- How to use Git and GitHub to manage project changes.
+
+## Author
+
+**Joshua Kroos**

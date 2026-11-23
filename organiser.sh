@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # 1. Choose the folder to organise
